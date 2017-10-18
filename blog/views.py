@@ -3,7 +3,7 @@ from .models import Post,Comment
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 from django.views.generic import ListView
-from .forms import EmailPostForm,CommentForm
+from .forms import EmailPostForm,CommentForm,ContactForm
 from django.core.mail import send_mail
 
 from taggit.models import Tag
@@ -107,7 +107,23 @@ def post_share(request,post_id):
                       
                       
                       
-
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            send_mail(
+                cd['subject'],
+                cd['message'],
+                cd.get('email','noreplay@example.com'),['siteowner@example.com'],            
+            )
+            return HttpResponseRedirect('/contact/thanks/')
+    else:
+        form = ContactForm(
+                initial={'subject':'I love your site!'}            
+            )
+    return render(request,'blog/post/contact_form.html',{'form':form})
+    
     
     
     

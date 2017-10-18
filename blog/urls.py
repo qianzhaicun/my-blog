@@ -14,4 +14,5 @@ urlpatterns = [
         name='post_share'),
     url(r'^tag/(?P<tag_slug>[-\w]+)/$', views.post_list,
                 name='post_list_by_tag'),    
+    url(r'^contact/$',views.contact),            
 ]

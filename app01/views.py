@@ -10,6 +10,33 @@ from app01.forms import UserForm
 
 from django.core.paginator import Paginator, EmptyPage,\
 PageNotAnInteger
+
+class CustomPaginator(Paginator):
+    def __init__(self,current_page,per_pager_num,*args,**kwargs):
+        # per_pager_num  显示的页码数量
+        self.current_page = int(current_page)
+        self.per_pager_num = int(per_pager_num)
+        super(CustomPaginator,self).__init__(*args,**kwargs)
+    def pager_num_range(self):
+        '''
+        自定义显示页码数
+        第一种：总页数小于显示的页码数
+        第二种：总页数大于显示页数  根据当前页做判断  a 如果当前页大于显示页一半的时候  ，往右移一下
+                                                b 如果当前页小于显示页的一半的时候，显示当前的页码数量
+        第三种：当前页大于总页数
+        :return:
+        '''
+        if self.num_pages < self.per_pager_num:
+            return range(1,self.num_pages+1)
+ 
+        half_part = int(self.per_pager_num/2)
+        if self.current_page <= half_part:
+            return range(1,self.per_pager_num+1)
+ 
+        if (self.current_page+half_part) > self.num_pages:
+            return range(self.num_pages-self.per_pager_num+1,self.num_pages)
+        return range(self.current_page-half_part,self.current_page+half_part+1)
+        
  
 def users(request):
     user_list = models.UserInfo.objects.all()
@@ -48,9 +75,10 @@ def edit_user(request,nid):
 def students(request):
     cls_list = models.Classes.objects.all()
     stu_list = models.Student.objects.all()
-    
-    paginator = Paginator(stu_list, 50) # 3 posts in each page
+    pagenum = 10
+    paginator = Paginator(stu_list, pagenum) # 3 posts in each page
     page = request.GET.get('page')
+
     try:
         stu_list = paginator.page(page)
     except PageNotAnInteger:
@@ -60,7 +88,9 @@ def students(request):
         # If page is out of range deliver last page of results
         stu_list = paginator.page(paginator.num_pages)
 
-    return render(request,'app01/students.html',{'stu_list':stu_list,'cls_list':cls_list,'page': page})
+    return render(request,'app01/students.html',{'stu_list':stu_list,'cls_list':cls_list,'page': page,'pagenum':pagenum})
+    
+    
  
 def add_student(request):
     response = {'status':True,'message': None,'data':None}
