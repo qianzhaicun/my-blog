@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
      <!-- 引入 Bootstrap -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.css" rel="stylesheet">
@@ -51,6 +52,7 @@
  
         </table>
     </div>
+    {% include "app01/pagination.html" with page=stu_list %}
 </div>
  
 <!-- Modal -->
@@ -95,7 +97,7 @@
                     <div class="form-group">
                         <label for="age" class="col-sm-2 control-label">班级</label>
                         <div class="col-sm-10">
-                            <select class="form-control" name="cls_id">
+                            <select class="form-control" name="cls_id" id = "addClass">
                                 {% for row in cls_list %}
                                     <option value="{{ row.id }}">{{ row.title }}</option>
                                 {% endfor %}
@@ -172,7 +174,7 @@
                     <div class="form-group">
                         <label for="age" class="col-sm-2 control-label">班级</label>
                         <div class="col-sm-10">
-                            <select class="form-control" name="cls_id">
+                            <select class="form-control" name="cls_id" id = "cls_id">
                                 {% for row in cls_list %}
                                     <option value="{{ row.id }}">{{ row.title }}</option>
                                 {% endfor %}
@@ -189,10 +191,11 @@
             </div>
         </div>
     </div>
+
 </div>
  
 
-<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+
 <script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.js"></script>
 <script>
     $(function () {
@@ -391,11 +394,15 @@
  
  
         var tdClass = document.createElement('td');
-        var text = $('select[name="cls_id"]').find('option[value="'+ postData.cls_id +'"]').text();
+        var text = $('select[name="cls_id2"]').find('option[value="'+ postData.cls_id +'"]').text();
+        
+        var text = $('#addClass').find("option:selected").text();
+ 
+
         tdClass.innerHTML = text;
         $(tr).append(tdClass);
  
-        var tdHandle = '<td> <a class="glyphicon glyphicon-remove icon del-row"></a><a class="fa fa-pencil-square-o icon edit-row"></a> </td>';
+        var tdHandle = '<td> <a class="glyphicon glyphicon-remove icon del-row"></a><a class="glyphicon glyphicon-ok edit-row"></a> </td>';
         $(tr).append(tdHandle);
  
         $('#tb').append(tr);

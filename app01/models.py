@@ -18,3 +18,7 @@ class Student(models.Model):
     age = models.IntegerField()
     gender = models.BooleanField()
     cs = models.ForeignKey(Classes)
+    
+class UserInfo(models.Model):
+    username = models.CharField(max_length=32)
+    email = models.EmailField(max_length=32)    
