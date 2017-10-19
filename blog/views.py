@@ -9,6 +9,10 @@ from django.core.mail import send_mail
 from taggit.models import Tag
 from django.db.models import Count
 
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+
+
 # Create your views here.
 
 def post_list(request,tag_slug=None):
@@ -112,22 +116,21 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
+            email = cd['email']
             send_mail(
-                cd['subject'],
-                cd['message'],
-                cd.get('email','noreplay@example.com'),['siteowner@example.com'],            
-            )
-            return HttpResponseRedirect('/contact/thanks/')
+            cd['subject'],
+            cd['message'],
+            'qianzhaicun@163.com',
+            ['kaixinbuliao@qq.com'])
+            #return render(request, 'blog/post/thanks.html', {'email': email})
+            return HttpResponseRedirect('/contact/thanks/' + email)
     else:
-        form = ContactForm(
-                initial={'subject':'I love your site!'}            
-            )
-    return render(request,'blog/post/contact_form.html',{'form':form})
+        form = ContactForm()
+    return render(request, 'blog/post/contact_form.html', {'form': form})                     
     
     
-    
-    
-    
+def thanks(request,email):
+    return render(request, 'blog/post/thanks.html', {'email': email})
     
     
     

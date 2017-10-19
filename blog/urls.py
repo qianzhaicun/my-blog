@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^(?P<post_id>\d+)/share/$', views.post_share,
         name='post_share'),
     url(r'^tag/(?P<tag_slug>[-\w]+)/$', views.post_list,
-                name='post_list_by_tag'),    
-    url(r'^contact/$',views.contact),            
+                name='post_list_by_tag'),  
+    url(r'^contact/$', views.contact),  
+    url(r'^contact/thanks/(?P<email>[0-9a-zA-Z.]+@[0-9a-zA-Z.]+?com)/$', views.thanks,name= 'thanks'),            
 ]
