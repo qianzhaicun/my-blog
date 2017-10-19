@@ -12,6 +12,7 @@ from django.db.models import Count
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
+from django.conf import settings
 
 # Create your views here.
 
@@ -102,12 +103,12 @@ def post_share(request,post_id):
             .format(cd['name'],cd['email'],post.title)
             message = 'Read "{}" at {} \n\n{}\'s comments: {} '\
             .format(post.title,post_url,cd['name'],cd['comments'])
-            send_mail(subject,message,'qianzhaicun@163.com',[to1])
+            send_mail(subject,message,settings.EMAIL_HOST_USER,[to1])
             sent = True
     else:
         form = EmailPostForm()
     return render(request,'blog/post/share.html',
-                      {'post':post,'form':form,'sent':sent,'to':to1})
+                      {'post':post,'form':form,'sent':sent,'to1':to1})
                       
                       
                       
@@ -119,13 +120,15 @@ def contact(request):
             email = cd['email']
             send_mail(
             cd['subject'],
-            cd['message'],
-            'qianzhaicun@163.com',
-            ['kaixinbuliao@qq.com'])
+            cd['message'] + ' from ' + email,
+            settings.EMAIL_HOST_USER,
+            [email])
             #return render(request, 'blog/post/thanks.html', {'email': email})
             return HttpResponseRedirect('/contact/thanks/' + email)
     else:
-        form = ContactForm()
+        form = ContactForm(
+            initial = {'subject':'I love your site!'}        
+        )
     return render(request, 'blog/post/contact_form.html', {'form': form})                     
     
     
