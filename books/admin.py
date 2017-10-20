@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Publisher, Author, Book
+from .models import Publisher, Author, Book,OpinionPoll,Response
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email')
@@ -17,3 +17,5 @@ class BookAdmin(admin.ModelAdmin):
 admin.site.register(Publisher)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Book, BookAdmin)
+admin.site.register(OpinionPoll)
+admin.site.register(Response)
