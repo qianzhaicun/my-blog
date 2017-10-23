@@ -48,7 +48,27 @@ def search(request):
         else:
             books = Book.objects.filter(title__icontains=q)
             return render(request, 'books/search_results.html',{'books': books, 'query': q})
-    return render(request, 'books/search_form.html',{'errors': errors})    
+    return render(request, 'books/search_form.html',{'errors': errors})  
+    
+    
+ # view.py
+from django.views.generic import ListView,DetailView
+from books.models import Publisher,Book
+
+class PublisherList(ListView):
+    model = Publisher
+    context_object_name = 'my_favorite_publishers'
+    
+class PublisherDetail(DetailView):
+
+    model = Publisher
+
+    def get_context_data(self,**kwargs):
+        context = super(PublisherDetail,self).get_context_data(**kwargs)
+        context['book_List'] = Book.objects.all()
+        return context
+        
+    
     
     
     

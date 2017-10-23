@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'orders',
     'books',
     'app01',
+    'shop',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,6 @@ EMAIL_HOST_USER = 'qianzhaicun@163.com'
 EMAIL_HOST_PASSWORD = 'asdjkl753951!@#'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

@@ -16,12 +16,22 @@ Including another URLconf
 from django.conf.urls import include,url
 from django.contrib import admin
 from books import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'',include('blog.urls',namespace='blog',app_name='blog')),
+    url(r'^account/',include('account.urls')),
+
+    url(r'',include('blog.urls',namespace='blog',app_name='blog')),    
+    url(r'^books/',include('books.urls',namespace='books',app_name='books')),
     url(r'^admin/', admin.site.urls),
     url(r'^search/$', views.search),
 
     url(r'^students/',include('app01.urls',namespace='app01',app_name='app01')),
+    url(r'^shop/',include('shop.urls',namespace='shop')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
 
