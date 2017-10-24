@@ -20,15 +20,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^account/',include('account.urls')),
-
     url(r'',include('blog.urls',namespace='blog',app_name='blog')),    
     url(r'^books/',include('books.urls',namespace='books',app_name='books')),
-    url(r'^admin/', admin.site.urls),
     url(r'^search/$', views.search),
 
     url(r'^students/',include('app01.urls',namespace='app01',app_name='app01')),
     url(r'^shop/',include('shop.urls',namespace='shop')),
+
+    url(r'^account/',include('account.urls')),
+    url(r'^admin/', admin.site.urls),
 ]
 
 if settings.DEBUG:
