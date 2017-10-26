@@ -3,6 +3,7 @@ from django.conf.urls import url
 from . import views
 from django.contrib.auth.views import login,logout,logout_then_login,password_change
 from django.contrib.auth.views import password_change_done ,password_reset,password_reset_done,password_reset_confirm,password_reset_complete
+
 urlpatterns = [
     #url(r'^login/$',views.user_login,name='login'),
     # login / logout urls  
@@ -24,7 +25,10 @@ urlpatterns = [
     url(r'^password-reset/confirm/(?P<uidb64>[-\w]+)/(?P<token>[-\w]+)/$',password_reset_confirm,{'template_name':'account/password_reset_confirm.html'},name='password_reset_confirm'),
     url(r'^password-reset/complete/$',password_reset_complete,{'template_name':'account/password_reset_complete.html'},name='password_reset_complete'),
     url(r'^register/$',views.register,name='register'),
+    url(r'^eidt/$',views.edit,name='edit'),
 ]
+
+
 
 
 

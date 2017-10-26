@@ -18,6 +18,8 @@ from django.contrib import admin
 from books import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'',include('blog.urls',namespace='blog',app_name='blog')),    

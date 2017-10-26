@@ -4,7 +4,7 @@ from app01 import models
 import json
 
 from app01.forms import UserForm
-
+from .models import Student
 """分页"""
 
 
@@ -145,3 +145,47 @@ def edit_student(request):
 def test_ajax_list(request):
     print(request.POST.getlist('k'))
     return HttpResponse('...')
+    
+    
+    
+def export_xls(request):
+    fields = ["id", "username", "age", "gender", "cs"]
+    queryset = Student.objects.all()
+    try:
+        return export_xlwt(Student, queryset.values_list(*fields), fields)
+    except Exception as e:
+        raise e
+
+
+def export_xlwt(model, values_list, fields):
+    import xlwt
+    from datetime import datetime, date
+    modelname = model._meta.verbose_name_plural.lower()
+    book = xlwt.Workbook(encoding='utf8')
+    sheet = book.add_sheet(modelname)
+
+    default_style = xlwt.Style.default_style
+    datetime_style = xlwt.easyxf(num_format_str='dd/mm/yyyy hh:mm')
+    date_style = xlwt.easyxf(num_format_str='dd/mm/yyyy')
+
+    for j, f in enumerate(fields):
+        sheet.write(0, j, fields[j])
+
+    for row, rowdata in enumerate(values_list):
+        for col, val in enumerate(rowdata):
+            if isinstance(val, datetime):
+                style = datetime_style
+            elif isinstance(val, date):
+                style = date_style
+            else:
+                style = default_style
+
+            sheet.write(row + 1, col, val, style=style)
+
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=%s.xls' % modelname
+    book.save(response)
+    return response
+    
+    
+    

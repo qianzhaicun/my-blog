@@ -21,6 +21,7 @@
 <div class="container">
     <div style="padding: 20px 0;">
         <a class="btn btn-primary" id="addBtn">添加</a>
+        <a class="btn btn-primary" id="exportExecl">导出execl</a>
     </div>
  
     <div>
@@ -205,8 +206,15 @@
         bindDelConfirm();
         bindEdit();
         bindEditConfirm();
+        textinput();
     });
  
+    /*编辑导出事件*/
+    function textinput(){
+        $("#exportExecl").click(function(){
+            window.location.href="export_xls"
+        })
+    }
     /*
     编辑提交事件
     */

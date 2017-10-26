@@ -11,7 +11,9 @@ urlpatterns = [
 
     url(r'^users/', views.users),
     url(r'^add_user/', views.add_user),
-    url(r'^edit_user-(\d+)/', views.edit_user),              
+    url(r'^edit_user-(\d+)/', views.edit_user),  
+
+    url(r'^export_xls/',views.export_xls),            
 ]
 
 
