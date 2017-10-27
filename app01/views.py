@@ -1,10 +1,11 @@
 from django.shortcuts import render,redirect
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse,render_to_response
+from django.template import RequestContext
 from app01 import models
 import json
 
 from app01.forms import UserForm
-from .models import Student
+from .models import Student,Classes
 """分页"""
 
 
@@ -187,5 +188,33 @@ def export_xlwt(model, values_list, fields):
     book.save(response)
     return response
     
-    
+def importExecl(request, format):
+    from .forms import ImportForm
+    if request.method == "POST":
+        form = ImportForm(request.POST, request.FILES)
+        if form.is_valid():
+            import_file = request.FILES['import_file']
+            from xlrd import open_workbook
+            wb = open_workbook(file_contents=import_file.read())
+            data = list()
+            for s in wb.sheets():
+                print('Sheet:', s.name)
+                for row in range(s.nrows):
+                    values_list = []
+                    for col in range(s.ncols):
+                        values_list.append(s.cell(row, col).value)
+                    data.append(values_list)  # 
+                    print (values_list)
+            if len(data) > 1:
+                StudentList = []
+                for i in range(len(data)):
+                    if i > 0:
+                      astudent = data[i]
+                      aclass = Classes.objects.get(id=astudent[3])
+                      StudentList.append(Student(username=astudent[0], age=astudent[1],gender=astudent[2],cs=aclass))
+                if StudentList:
+                    Student.objects.bulk_create(StudentList)
+    else:
+        form = ImportForm()
+    return render_to_response("app01/form.html", locals(), context_instance=RequestContext(request))
     

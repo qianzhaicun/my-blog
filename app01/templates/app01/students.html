@@ -22,6 +22,7 @@
     <div style="padding: 20px 0;">
         <a class="btn btn-primary" id="addBtn">添加</a>
         <a class="btn btn-primary" id="exportExecl">导出execl</a>
+        <a class="btn btn-primary" id="importExecl">导入execl</a>
     </div>
  
     <div>
@@ -207,12 +208,20 @@
         bindEdit();
         bindEditConfirm();
         textinput();
+        importExecl();
     });
  
     /*编辑导出事件*/
     function textinput(){
         $("#exportExecl").click(function(){
             window.location.href="export_xls"
+        })
+    }
+
+    /*编辑导入事件*/
+    function importExecl(){
+        $("#importExecl").click(function(){
+            window.location.href="importExecl/xls"
         })
     }
     /*
