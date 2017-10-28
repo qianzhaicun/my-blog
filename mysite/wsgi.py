@@ -8,9 +8,22 @@ https://docs.djangoproject.com/en/1.11/howto/deployment/wsgi/
 """
 
 import os
+import sys
+import site
 
 from django.core.wsgi import get_wsgi_application
+from os.path import join,dirname,abspath
+PROJECT_DIR = dirname(dirname(abspath(__file__)))
+sys.path.insert(0,PROJECT_DIR)
 
+site.addsitedir('/home/caicai/python/django/mysite/myvenv/lib/python3.5/site-packages')
+sys.path.append('/home/caicai/python/django/mysite/media')
+sys.path.append('/home/cai')
+sys.path.append('/home/caicai/python/django/mysite')
+sys.path.append('/home/caicai/python/django/mysite/myvenv')
+sys.path.append('/home/caicai/python/django/mysite/myvenv/lib/python3.5')
+sys.path.append('/home/caicai/python/django/mysite/mysite')
+sys.path.append('/home/caicai/python/django/mysite/myvenv/lib/python3.5/site-packages')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
 
 application = get_wsgi_application()

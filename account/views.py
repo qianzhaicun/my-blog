@@ -122,7 +122,7 @@ def edit(request):
             profile_form.save()
             messages.success(request,'Profile updated successfully')
         else:
-            message.error(request,'Error updating your profile')
+            messages.error(request,'Error updating your profile')
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
