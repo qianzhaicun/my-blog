@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'app01',
     'account', 
     'books',
-    'shop',    
+    'shop',   
+    'courses',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 TIME_ZONE = 'Asia/Shanghai'
 
-LANGUAGE_CODE = 'zh-cn'
+LANGUAGE_CODE = 'zh-hans'
 
 USE_I18N = True
 
@@ -130,11 +131,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS =(
-
-    os.path.join(BASE_DIR, 'static'),
-
-)
+#STATICFILES_DIRS =(
+#
+#    os.path.join(BASE_DIR, 'static'),
+#
+#)
+STATIC_ROOT = '/home/caicai/python/django/mysite/mysite/static/'
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL= 'qianzhaicun@163.com'
